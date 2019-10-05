@@ -1,0 +1,337 @@
+# Overview
+The purpose of this project is to demonstrate mastery over the concepts covered in the Udacity Data Engineering Nanodegree course for the capstone project. The data used was provided by Udacity, with instructions to design and implement an ETL pipeline such that the data could be queried and used by an outside analyst (technical or non-technical). I made use of three technologies covered in the Nanodegree coursework - Apache Airflow, AWS S3 buckets, and AWS Redshift. For the ETL pipeline, data is loaded from various file types (JSON, CSV, and parquet) into S3 storage, then read into Redshift tables via Postgres SQL, and transformed into a more palatable final form.
+
+# Data Model
+
+## Investigation
+The first step I took in this project was to get acquainted with the data available to me. To do this, I visited each of the data sources and studied the data structure and format. I also visually analyzed samples of the data to get a sense of what fields were most likely to be useful (meaning most likely to be present, relevant, and accurate). What I found to be most interesting about the data provided were the population counts for cities, the land temperature data, and the I94 immigration data (which provides a means to determine popularity of locations for travel). The Airport Code data didn't seem to add any value on top of these aspects, which led me to set it aside even though I have described its format as part of the investigation process in the Sources section of this document below.
+Once I had a sense of how each data source was formatted, I started looking for connections between them. The most obvious point of focus was city location - once combined, an analyst would be able to draw correlation between a city, its changing climate, and the number of visitors it received from foreign locations over time. Another point of focus could be gender; both the immigration and demographic data sets include gender classifications, by the gender of a traveler or a count of the population of a city according to gender classification. A final connection to consider is the count of foreign residents of a city contained in the demographic data, which could be compared to the number of immigrants traveling to that area at a given time.
+In order to make sense of this data, I created static files (both CSV and JSON) to describe common areas that would become dimension tables in a modified star schema (I say modified because I have more than a single fact table in my final database structure). I loaded all the data files provided for the three data sets, along with my own static data files, into an S3 bucket. Then I used an Airflow hook to transfer that data into Redshift staging tables. From there I transformed the data into a final, query-able form, also in Redshift. For my final tables I included data still in a mostly raw form, so that the user could design their own queries. I also included a roll-up table as an example of how a new table could be created from a combination of the final tables to make querying more expedient.
+
+### Sources
+The following sources were included as suggested data sets for use in the Udacity Data Engineering Capstone project. All but the Airport Code data was used in this project.
+
+#### I94 Immigration Data
+The I94 Immigration data set is maintained and made available via subscription by the US National Tourism and Trade Office. It covers international visitor arrival statistics by world regions and select countries (including top 20), as well as type of visa, mode of transportation, age groups, states visited (first intended address only), and the top ports of entry (for select countries). Data sources include overseas DHS/CBP I-94 Program data, Canadian visitation data (Stats Canada), and Mexican visitation data (Banco de Mexico). This data set covers the time span from 1992 to 2016 - a selection of which was made available by Udacity for use in this project. See the [Visitor Arrivals Program](https://travel.trade.gov/research/reports/i94/historical/2016.html) page of the NTTO website for availability and pricing.
+
+__*Format*__: Parquet
+
+__*Raw Data Dictionary*__
+* *id* - integer, row identifier
+* *cicid* - integer, row identifier for Citizenship and Immigration Canada (CIC)
+* *i94yr* - integer, four-digit year
+* *i94mon* - integer, numeric month (no leading zeroes)
+* *i94cit* - integer, three-digit country code
+* *i94res* - integer, three-digit country code
+* *i94port* - integer, three-digit city/state or city/country code
+* *arrdate* - integer, SAS date numeric field, arrival date in U.S.
+* *i94mode* - integer, single-digit travel method code
+* *i94addr* - string, two-character location identifier
+* *depdate* - integer, SAS date numeric field, departure date from U.S.
+* *i94bir* - integer, age of respondent in years
+* *i94visa* - integer, single-digit visa code (business / pleasure / student)
+* *count* - integer, used for summary statistics
+* *dtadfile* - string, character date field in format 'YYYYMMDD', date added to I-94 file
+* *visapost* - string, Department of State where where visa was issued
+* *occup* - string, occupation that will be performed in U.S.
+* *entdepa* - string, single-character arrival flag - admitted or paroled into the U.S.
+* *entdepd* - string, single-character departure flag - departed, lost I-94 or is deceased
+* *entdepu* - string, update flag - apprehended, overstayed, adjusted to perm residence
+* *matflag* - string, single-character match flag - match of arrival and departure records
+* *biryear* - integer, four-digit year of birth
+* *dtaddto* - string, character date field in format 'MMDDYYYY', date to which admitted to U.S. (allowed to stay until)
+* *gender* - string, single-character gender
+* *insnum* - integer, INS number
+* *airline* - string, airline used to arrive in U.S.
+* *admnum* - integer, admission number
+* *fltno* - string, flight number of airline used to arrive in U.S.
+* *visatype* - string, class of admission legally admitting the non-immigrant to temporarily stay in U.S.
+
+#### Global Land Temperature By City Data
+The Global Land Temperature by City data set is maintained and made available open source by Kaggle and Berkeley Earth as part of a broader series of data sets under the umbrella of [Climate Change: Earth Surface Temperature Data](https://www.kaggle.com/berkeleyearth/climate-change-earth-surface-temperature-data#GlobalLandTemperaturesByCity.csv). It contains land temperatures by city from the year 1750 to the present with records in monthly increments.
+
+__*Format*__: CSV
+
+__*Raw Data Dictionary*__
+* *dt* - string, date in the format 'YYYY-MM-DD'
+* *AverageTemperature* - float, average temperature in Celsius
+* *AverageTemperatureUncertainty* - float, the 95% confidence interval around the average
+* *City* - string, city location
+* *Country* - string, country location
+* *Latitude* - string, degrees latitude
+* *Longitude* - string, degrees longitude
+
+#### U.S. City Demographic Data
+The U.S. City Demographic data set is maintained and made available open source by [OpenSoft](https://public.opendatasoft.com/explore/dataset/us-cities-demographics/information/). It contains information about the demographics of all US cities and census-designated places with a population greater or equal to 65,000. The data was gathered via the US Census Bureau's 2015 American Community Survey and can be obtained via API endpoint.
+
+__*Format*__: CSV
+
+__*Raw Data Dictionary*__
+* *City* - string, city location
+* *State* - string, state location
+* *Median Age* - float, median age of resident
+* *Male Population* - integer, size of male population
+* *Female Population* - integer, size of female population
+* *Total Population* - integer, total population size
+* *Number of Veterans* - integer, number of residents with veteran status
+* *Foreign-born* - integer, number of residents born outside the U.S.
+* *Average Household Size* - float, average number of residents per household
+* *State Code* - string, two-character U.S. state code
+* *Race* - string, racial identifier (White, Asian, Black or African-American)
+* *Count* - integer, number of residents representing listed Race
+
+#### Airport Code Data
+The Airport Code data set is maintained and made available open source by [DataHub](https://datahub.io/core/airport-codes#readme). It includes airport codes from around the world, downloaded from the public domain source http://ourairports.com/data/, who compiled this data from multiple different sources. This data is updated nightly.
+
+__*Format*__: CSV
+
+__*Raw Data Dictionary*__
+* *ident* - integer, row identifier
+* *type* - string, type of airport
+* *name* - string, airport name
+* *elevation_ft* - integer, airport elevation in feet
+* *continent* - string, continent location code
+* *iso_country* - string, ISO country code
+* *iso_region* - string, ISO region code
+* *municipality* - string, municipality location
+* *gps_code* - string, GPS location code
+* *iata_code* - string, IATA airport code
+* *local_code* - string, local airport code
+* *coordinates* - string, latitude and longitude coordinates
+
+## Model Definition (Data Dictionary)
+
+### Staging Tables
+
+__i94_immigration_staging__
+See the Investigation >> Sources >> I94 Immigration Data section for a breakdown of fields. Parquet files from this data set are copied from S3 into this staging table verbatim.
+
+__land_temp_staging__
+See the Investigation >> Sources >> Global Land Temperature By City Data section for a breakdown of fields. CSV files from this data set are copied from S3 into this staging table verbatim.
+
+__demographic_staging__
+See the Investigation >> Sources >> U.S. City Demographic Data section for a breakdown of fields. CSV files from this data set are copied from S3 into this staging table verbatim.
+
+__port_code_staging__
+This staging data is pulled from a CSV file packaged in the project - `airflow/data/staging_data/port_codes.csv`.
+
+Fields:
+* *name* - string, location name (typically a city)
+* *state_code* - string, two-character U.S. state code, empty for non-U.S. locations
+* *country_name* - string, name of country
+* *i94_port_code* - string, three-character I94 port code
+
+### Final Tables
+
+__country_codes__
+The data in this table is transferred from a CSV file packaged with the project - `airflow/data/dim_table_data/country_codes.csv`. Each record represents a country and its corresponding I94 code.
+
+Fields:
+* *id* - integer, auto-incremented primary key
+* *name* - string, name of country
+* *i94_code* - string, three-character I94 code
+
+__travel_modes__
+The data in this table is transferred from a JSON file packaged with the project - `airflow/data/dim_table_data/travel_modes.json`. Each record represents a method of transportation.
+
+Fields:
+* *id* - integer, auto-incremented primary key
+* *name* - string, name of method of transportation
+* *travel_mode_code* - integer, digit code associated with method of transportation
+
+__port_codes__
+The data in this table is consolidated from the `port_code_staging` and `us_states` tables. Each record represents a port of entry into a country.
+
+Fields:
+* *id* - integer, auto-incremented primary key
+* *city* - string, city where port is located
+* *state_id* - integer, state where city is located (if city is in the U.S.), points to the `us_states` table
+* *i94_port_code* - string, three-character port of entry code
+
+__us_states__
+The data in this table is transferred from a CSV file packaged with the project - `airflow/data/dim_table_data/us_states.csv`. Each record represents a U.S. state.
+
+Fields:
+* *id* - integer, auto-incremented primary key
+* *name* - string, name of U.S. state
+* *state_code* - string, two-character U.S. state code
+
+__visa_types__
+The data in this table is transferred from a JSON file packaged with the project - `airflow/data/dim_table_data/visa_types.json`. Each record a type of visa for entering a foreign country (Business, Pleasure, or Student).
+
+Fields:
+* *id* - integer, auto-incremented primary key
+* *name* - string, visa type (purpose of visit)
+* *visa_type_code* - integer, visa type code
+
+__i94_immigration__
+The data in this table is consolidated from the `i94_immigration_staging`, `country_codes`, `port_codes`, `visa_types`, and `travel_modes` tables. Each record represents a visit made by an immigrant to a country they are not native to.
+
+Fields:
+* *id* - integer, auto-incremented primary key
+* *year* - integer, four-digit year the visit occurred
+* *month* - integer, digit month the visit occurred
+* *res_country_code_id* - integer, origin country of the immigrant, points to the `country_codes` table
+* *port_id* - integer, port of entry for the visit, points to the `port_codes` table
+* *travel_mode_id* - integer, method of transportation, points to the `travel_modes` table
+* *arrival_date* - timestamp, date immigrant arrived at port of entry
+* *departure_date* - timestamp, date immigrant exited visiting country
+* *respondent_age* - integer, age of immigrant on entry
+* *visa_type_code_id* - integer, reason for trip, points to the `visa_types` table
+* *visa_post_code_id* - integer, department of state where visa was issued, points to `port_codes` table
+* *occupation* - string, occupation of immigrant
+* *birth_year* - string, birth year of immigrant
+* *gender* - string, gender of immigrant (M or F)
+* *visa_type* - string, visa type used by immigrant
+
+__land_temperatures__
+The data in this table is consolidated from the `land_temp_staging` and `country_codes` tables. Each record represents the average temperature at a city location over a particular month.
+
+Fields:
+* *id* - integer, auto-incremented primary key
+* *date* - timestamp, monthly time period of record (in YYYY-MM-DD format)
+* *avg_temp* - float, average temperature in location over monthly time period
+* *avg_temp_uncertainty* - float, uncertainty of average temperature
+* *city* - string, location of temperature data
+* *country_code_id* - country city is located in, points to `country_codes` table
+* *latitude* - string, latitude degrees for location
+* *longitude* - string, longitude degrees for location
+
+__us_city_demographics__
+The data in this table is consolidated from the `demographic_staging`, `us_states`, and `port_codes` tables. Each record represents the population numbers of various groups in a particular location.
+
+Fields:
+* *id* - integer, auto-incremented primary key
+* *port_code_id* - integer, filled if city is also a port of entry, points to the `port_codes` table
+* *city* - string, name of city
+* *median_age* - float, median age of city resident
+* *male_pop* - integer, size of male population in city
+* *female_pop* - integer, size of female population in city
+* *total_pop* - integer, total population of city
+* *num_vets* - integer, number of veterans in city
+* *foreign_pop* - integer, number of non-native residents in city
+* *avg_household_size* - float, average size of household in city
+* *race* - string, racial identifier
+* *race_pop* - integer, population of racial group identified in `race` column
+
+__i94_immigration_by_year_month_port__
+The data in this table is consolidated from the `i94_immigration`, `port_codes`, and `us_states` tables. Each record represents a roll-up of the number of people who traveled via a port of entry over a monthly period.
+
+Fields:
+* *id* - integer, auto-incremented primary key
+* *year* - integer, year for roll-up data
+* *month* - integer, month for roll-up data
+* *city* - string, city that roll-up data occurred in
+* *state_code* - string, two-character state that roll-up data occurred in
+* *i94_port_code* - string, port of entry code
+* *total* - integer, total count of records of travel over time period
+* *total_men* - integer, number of records over time period where gender was male
+* *total_women* - integer, number of records over time period where gender was female
+* *avg_age* - integer, average age of travelers over time period
+
+## Transformations
+Transformations performed on staging table data to convert it to the form prescribed in final table definitions include data type conversion, summing, and averaging.
+
+### Tables
+__i94_immigration_by_year_month_port__
+* Data from the `i94_immigration`, `port_codes`, and `us_states` tables are combined and grouped by year, month, and port of entry.
+* Roll-ups include the total immigrant count that traveled through a port of entry during a particular year and month, as well as a breakdown of that count into male and female, and the average age of the traveler.
+
+__i94_immigration__
+* From the `i94_immigration_staging` table, the `i94yr`, `i94mon`, `i94bir`, and `biryear` columns are converted from floats to integers.
+* The immigrant arrival and departure dates are converted from SAS date format to Redshift timestamp - this was achieved using the `dateadd` function with January 1, 1960 as the start date.
+* The country, visa, and port information is moved into dimension tables and referenced via id.
+
+__land_temperatures__
+* From the land_temp_staging table, the `dt` column is converted from a string to a Redshift timestamp in the format "YYYY-MM-DD".
+* The country information is moved into a dimension table and referenced via id.
+
+__us_city_demographics__
+* The port information is moved into a dimension table and referenced via id.
+
+__port_codes__
+* The state information is moved into a dimension table and referenced via id.
+
+## Quality Checks
+This ETL pipeline makes use of two data quality checks. These checks are after staging tables are loaded and after final tables are loaded (before attempting data roll-up). The data quality checks can be found in `airflow/plugins/operators/data_quality_check.py`. This operator allows the user to pass a dictionary of tables (in the format {"table name": "column name"}) and a list of methods to check so that multiple checks can be made on multiple tables in one go.
+
+Checks:
+* __has_nulls:__ Will throw an exception if a column in a table has NULL values
+* __has_zero_rows:__ Will throw an exception if a table has no rows
+
+# ETL Pipeline
+
+## Technologies Used
+This project makes use of the following technologies:
+* Apache Airflow
+* Postgres
+* Amazon Web Services Redshift
+* Amazon Web Services S3
+
+I used Apache Airflow so that I could define a pipeline that would load data files to a central S3 repository and then transfer the data into Redshift tables all in a single process. I used a Postgres backend database and LocalExecutor with my Airflow instance so that multiple tasks could be run at once. For the purposes of this project, I did not include a scheduled interval (no need, since only limited data was available, and a portion of it would require a subscription to access further). I did, however, design the pipeline such that a schedule *could* be incorporated in the future. The pipeline is set up to truncate staging tables before accepting new copied data from an S3 file, and static dimension tables are not touched further once they are filled. More management would need to be added to the S3 elements of the pipeline so that duplicate data is not entered into final tables. Additional data quality checks could be incorporated to ensure this as well.
+
+## Project Setup
+
+__NOTE:__ This is a development setup, NOT to be used in production. These instructions assume that you have downloaded the project from the Jupyter notebook to be set up and executed in your local environment.
+
+__To set up Apache Airflow in preparation for running the ETL pipeline:__
+1. Open a Terminal instance
+2. Navigate to the workspace directory (or whatever directory you have placed the project in):
+```
+    cd /home/workspace
+```
+3. Install Airflow:
+```
+    pip install apache-airflow
+```
+4. To be able to run the Tasks defined in the Dag you will need to use the LocalExecutor. In order to do this, you will need to install [Postgres](https://www.postgresql.org/download/) on your local machine.
+5. After installing Postgres locally, you will need to create a database named "airflow" with a username and password that Airflow can use to store Task scheduling data.
+6. Once you have created the "airflow" database with associated username and password, you will need to update `airflow.cfg`, which should have appeared in the airflow directory when you installed Airflow. You will need to make changes to the following fields:
+```
+executor = LocalExecutor
+
+sql_alchemy_conn = postgresql+psycopg2://localhost/<database>?user=<username>&password=<password>
+```
+This completes initial setup for your Airflow instance.
+
+__To run Apache Airflow after initial setup is complete:__
+1. Open a Terminal instance
+2. Navigate to the workspace directory (or whatever directory you have placed the project in):
+```
+    cd /home/workspace
+```
+3. Ensure that the `airflow_init.sh` script is executable in your environment. If it is not, change the file permissions using the following command:
+```
+    chmod +x airflow_init.sh
+```
+4. Update the `airflow_init.sh` script so that the AIRFLOW_HOME environment variable matches the directory structure of where you placed the project in your local environment. This directory structure should track the location of the DAG file(s) needed to run the ETL pipeline.
+5. From the workspace directory, execute the `airflow_init.sh` script
+```
+    ./airflow_init.sh
+```
+This script will ensure that Apache Airflow is installed, initialize the database, and start the webserver.
+6. Open a second tab in the terminal and start the Airflow scheduler:
+```
+    airflow scheduler
+```
+Now you should be able to access the Airflow UI from `localhost:8080` in your browser. Please keep in mind that these instructions apply to local installations only, and you will not be able to access the Airflow UI from that address if you run them within a Jupyter notebook.
+
+__Data Setup__
+Two data sets were too large to include in the project itself and will need to be downloaded:
+* The Global Land Temperatures by City data set should be downloaded from the [Kaggle](https://www.kaggle.com/berkeleyearth/climate-change-earth-surface-temperature-data) site as a CSV and placed in the `airflow/staging_data` directory.
+* The U.S. Cities demographics data set should be downloaded from the [OpenSoft](https://public.opendatasoft.com/explore/dataset/us-cities-demographics/export/) site as a CSV and placed in the `airflow/staging_data` directory as us-cities-demographics.csv.
+
+## Pipeline Diagram
+![Airflow ETL Pipeline Diagram](airflow/Airflow_ETL_Pipeline_Diagram.png)
+
+# Additional Scenarios
+Special considerations would need to be made if the pipeline were applied to the following situations.
+
+## The data was increased by 100x.
+The Redshift tables as they are currently set up would not support the amount of data in the set if it were increased 100x. The ETL pipeline would need to be updated to make use of partitioning, potentially using other technologies covered in this nanodegree like Cassandra or Spark. Increasing the data would also make joins more problematic, so it would be recommended that more roll-up tables be designed according to the needs of the users (such that joins become less or not at all necessary).
+
+## The pipelines would be run on a daily basis by 7 am every day.
+If runs of this ETL pipeline were to become time-dependent, the use of Airflow Sensors could come into play. A sensor could be used to determine if the pipeline should continue (if it is behind, whether or not it is in an error state). It could also be used to trigger the pipeline the moment a new data file is dropped in the S3 bucket. The DAG itself should also be configured to email an admin on any failures.
+
+## The database needed to be accessed by 100+ people.
+The use of AWS (in this case Redshift) will make this more reliable, as AWS can automatically shift availability to another region if one goes inactive. However, in this case the use of partitioning and an increase in roll-up tables (for simpler querying requiring less joins) would make a difference in database responsiveness.
