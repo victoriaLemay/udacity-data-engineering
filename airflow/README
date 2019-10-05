@@ -292,6 +292,7 @@ executor = LocalExecutor
 
 sql_alchemy_conn = postgresql+psycopg2://localhost/<database>?user=<username>&password=<password>
 ```
+7. In Airflow, you will need to set up connections for S3, Redshift, an AWS IAM Role, and an AWS IAM ARN. The ARN should be added to the `load_i94_immigration_staging_table` task in `project_dag.py`.
 This completes initial setup for your Airflow instance.
 
 __To run Apache Airflow after initial setup is complete:__

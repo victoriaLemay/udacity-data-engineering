@@ -96,7 +96,7 @@ load_i94_immigration_staging_table = CopyS3ToRedshiftOperator(
     dag=dag,
     table='i94_immigration_staging',
     s3_bucket='project-capstone-parquet',
-    parquet_arn='arn:aws:iam::191711490296:role/myRedshiftRole'
+    parquet_arn='<Your AWS IAM Role Here>'
 )
 
 load_travel_modes_dim_table = LoadDimFileDataOperator(
