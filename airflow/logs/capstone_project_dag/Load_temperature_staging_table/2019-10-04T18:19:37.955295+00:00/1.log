@@ -1,0 +1,30 @@
+[2019-10-04 13:20:35,222] {taskinstance.py:620} INFO - Dependencies all met for <TaskInstance: capstone_project_dag.Load_temperature_staging_table 2019-10-04T18:19:37.955295+00:00 [queued]>
+[2019-10-04 13:20:35,257] {taskinstance.py:620} INFO - Dependencies all met for <TaskInstance: capstone_project_dag.Load_temperature_staging_table 2019-10-04T18:19:37.955295+00:00 [queued]>
+[2019-10-04 13:20:35,257] {taskinstance.py:838} INFO - 
+--------------------------------------------------------------------------------
+[2019-10-04 13:20:35,258] {taskinstance.py:839} INFO - Starting attempt 1 of 4
+[2019-10-04 13:20:35,258] {taskinstance.py:840} INFO - 
+--------------------------------------------------------------------------------
+[2019-10-04 13:20:35,284] {taskinstance.py:859} INFO - Executing <Task(CopyS3ToRedshiftOperator): Load_temperature_staging_table> on 2019-10-04T18:19:37.955295+00:00
+[2019-10-04 13:20:35,285] {base_task_runner.py:133} INFO - Running: ['airflow', 'run', 'capstone_project_dag', 'Load_temperature_staging_table', '2019-10-04T18:19:37.955295+00:00', '--job_id', '661', '--pool', 'default_pool', '--raw', '-sd', 'DAGS_FOLDER/project_dag.py', '--cfg_path', '/var/folders/dr/9yvjlnm11xv25k2gknf2n3z00000gn/T/tmppdcte5hj']
+[2019-10-04 13:20:37,687] {base_task_runner.py:115} INFO - Job 661: Subtask Load_temperature_staging_table /usr/local/lib/python3.7/site-packages/airflow/configuration.py:627: DeprecationWarning: You have two airflow.cfg files: /Users/victorialemay/airflow/airflow.cfg and /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/airflow.cfg. Airflow used to look at ~/airflow/airflow.cfg, even when AIRFLOW_HOME was set to a different value. Airflow will now only read /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/airflow.cfg, and you should remove the other file
+[2019-10-04 13:20:37,687] {base_task_runner.py:115} INFO - Job 661: Subtask Load_temperature_staging_table   category=DeprecationWarning,
+[2019-10-04 13:20:38,057] {base_task_runner.py:115} INFO - Job 661: Subtask Load_temperature_staging_table [2019-10-04 13:20:38,057] {settings.py:213} INFO - settings.configure_orm(): Using pool settings. pool_size=5, max_overflow=10, pool_recycle=1800, pid=89415
+[2019-10-04 13:20:38,989] {base_task_runner.py:115} INFO - Job 661: Subtask Load_temperature_staging_table [2019-10-04 13:20:38,989] {__init__.py:51} INFO - Using executor LocalExecutor
+[2019-10-04 13:20:40,772] {base_task_runner.py:115} INFO - Job 661: Subtask Load_temperature_staging_table [2019-10-04 13:20:40,772] {dagbag.py:90} INFO - Filling up the DagBag from /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py
+[2019-10-04 13:20:40,886] {base_task_runner.py:115} INFO - Job 661: Subtask Load_temperature_staging_table [2019-10-04 13:20:40,885] {cli.py:516} INFO - Running <TaskInstance: capstone_project_dag.Load_temperature_staging_table 2019-10-04T18:19:37.955295+00:00 [running]> on host 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
+[2019-10-04 13:20:40,962] {copy_s3_to_redshift.py:46} INFO - Using data file GlobalLandTemperaturesByCity.csv from S3 bucket project-capstone
+[2019-10-04 13:20:40,962] {copy_s3_to_redshift.py:47} INFO - Inserting into destination Redshift table land_temp_staging
+[2019-10-04 13:20:41,047] {logging_mixin.py:95} INFO - [[34m2019-10-04 13:20:41,047[0m] {[34mbase_hook.py:[0m84} INFO[0m - Using connection to: [1mid: redshift. Host: redshift-cluster-1.c4i0rfzboubh.us-west-2.redshift.amazonaws.com, Port: 5439, Schema: dev, Login: awsuser, Password: XXXXXXXX, extra: {}[0m[0m
+[2019-10-04 13:20:41,618] {logging_mixin.py:95} INFO - [[34m2019-10-04 13:20:41,616[0m] {[34mdbapi_hook.py:[0m171} INFO[0m - TRUNCATE TABLE land_temp_staging[0m
+[2019-10-04 13:20:41,997] {copy_s3_to_redshift.py:56} INFO - Copying data from S3 to Redshift
+[2019-10-04 13:20:42,019] {logging_mixin.py:95} INFO - [[34m2019-10-04 13:20:42,018[0m] {[34mbase_hook.py:[0m84} INFO[0m - Using connection to: [1mid: redshift. Host: redshift-cluster-1.c4i0rfzboubh.us-west-2.redshift.amazonaws.com, Port: 5439, Schema: dev, Login: awsuser, Password: XXXXXXXX, extra: {}[0m[0m
+[2019-10-04 13:20:42,586] {logging_mixin.py:95} INFO - [[34m2019-10-04 13:20:42,585[0m] {[34mdbapi_hook.py:[0m171} INFO[0m - 
+        COPY land_temp_staging 
+        FROM 's3://project-capstone/GlobalLandTemperaturesByCity.csv'
+        ACCESS_KEY_ID 'AKIASZIXFGD4JFXXFSEI'
+        SECRET_ACCESS_KEY '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'
+        CSV DELIMITER ',' IGNOREHEADER 1
+    [0m
+[2019-10-04 13:21:09,532] {copy_s3_to_redshift.py:76} INFO - Data copy complete
+[2019-10-04 13:21:10,272] {logging_mixin.py:95} INFO - [[34m2019-10-04 13:21:10,271[0m] {[34mlocal_task_job.py:[0m105} INFO[0m - Task exited with return code 0[0m

@@ -1,0 +1,33 @@
+[2019-10-04 10:14:14,432] {taskinstance.py:620} INFO - Dependencies all met for <TaskInstance: capstone_project_dag.Load_port_code_staging_table 2019-10-04T15:13:07.019188+00:00 [queued]>
+[2019-10-04 10:14:14,451] {taskinstance.py:620} INFO - Dependencies all met for <TaskInstance: capstone_project_dag.Load_port_code_staging_table 2019-10-04T15:13:07.019188+00:00 [queued]>
+[2019-10-04 10:14:14,451] {taskinstance.py:838} INFO - 
+--------------------------------------------------------------------------------
+[2019-10-04 10:14:14,451] {taskinstance.py:839} INFO - Starting attempt 1 of 4
+[2019-10-04 10:14:14,451] {taskinstance.py:840} INFO - 
+--------------------------------------------------------------------------------
+[2019-10-04 10:14:14,489] {taskinstance.py:859} INFO - Executing <Task(CopyS3ToRedshiftOperator): Load_port_code_staging_table> on 2019-10-04T15:13:07.019188+00:00
+[2019-10-04 10:14:14,489] {base_task_runner.py:133} INFO - Running: ['airflow', 'run', 'capstone_project_dag', 'Load_port_code_staging_table', '2019-10-04T15:13:07.019188+00:00', '--job_id', '401', '--pool', 'default_pool', '--raw', '-sd', 'DAGS_FOLDER/project_dag.py', '--cfg_path', '/var/folders/dr/9yvjlnm11xv25k2gknf2n3z00000gn/T/tmp8hwchtpq']
+[2019-10-04 10:14:15,341] {base_task_runner.py:115} INFO - Job 401: Subtask Load_port_code_staging_table /usr/local/lib/python3.7/site-packages/airflow/configuration.py:627: DeprecationWarning: You have two airflow.cfg files: /Users/victorialemay/airflow/airflow.cfg and /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/airflow.cfg. Airflow used to look at ~/airflow/airflow.cfg, even when AIRFLOW_HOME was set to a different value. Airflow will now only read /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/airflow.cfg, and you should remove the other file
+[2019-10-04 10:14:15,341] {base_task_runner.py:115} INFO - Job 401: Subtask Load_port_code_staging_table   category=DeprecationWarning,
+[2019-10-04 10:14:15,474] {base_task_runner.py:115} INFO - Job 401: Subtask Load_port_code_staging_table [2019-10-04 10:14:15,473] {settings.py:213} INFO - settings.configure_orm(): Using pool settings. pool_size=5, max_overflow=10, pool_recycle=1800, pid=35264
+[2019-10-04 10:14:15,790] {base_task_runner.py:115} INFO - Job 401: Subtask Load_port_code_staging_table [2019-10-04 10:14:15,789] {__init__.py:51} INFO - Using executor LocalExecutor
+[2019-10-04 10:14:16,439] {base_task_runner.py:115} INFO - Job 401: Subtask Load_port_code_staging_table [2019-10-04 10:14:16,439] {dagbag.py:90} INFO - Filling up the DagBag from /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py
+[2019-10-04 10:14:16,487] {base_task_runner.py:115} INFO - Job 401: Subtask Load_port_code_staging_table [2019-10-04 10:14:16,486] {cli.py:516} INFO - Running <TaskInstance: capstone_project_dag.Load_port_code_staging_table 2019-10-04T15:13:07.019188+00:00 [running]> on host 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
+[2019-10-04 10:14:16,521] {copy_s3_to_redshift.py:37} INFO - Using CSV data file port_codes.csv from S3 bucket project-capstone
+[2019-10-04 10:14:16,521] {copy_s3_to_redshift.py:38} INFO - Inserting into destination Redshift table port_code_staging
+[2019-10-04 10:14:16,557] {logging_mixin.py:95} INFO - [[34m2019-10-04 10:14:16,557[0m] {[34mbase_hook.py:[0m84} INFO[0m - Using connection to: [1mid: redshift. Host: redshift-cluster-1.c4i0rfzboubh.us-west-2.redshift.amazonaws.com, Port: 5439, Schema: dev, Login: awsuser, Password: XXXXXXXX, extra: {}[0m[0m
+[2019-10-04 10:14:17,147] {logging_mixin.py:95} INFO - [[34m2019-10-04 10:14:17,147[0m] {[34mdbapi_hook.py:[0m171} INFO[0m - TRUNCATE TABLE port_code_staging[0m
+[2019-10-04 10:14:17,487] {copy_s3_to_redshift.py:47} INFO - Copying data from S3 to Redshift
+[2019-10-04 10:14:17,499] {logging_mixin.py:95} INFO - [[34m2019-10-04 10:14:17,499[0m] {[34mbase_hook.py:[0m84} INFO[0m - Using connection to: [1mid: redshift. Host: redshift-cluster-1.c4i0rfzboubh.us-west-2.redshift.amazonaws.com, Port: 5439, Schema: dev, Login: awsuser, Password: XXXXXXXX, extra: {}[0m[0m
+[2019-10-04 10:14:18,072] {logging_mixin.py:95} INFO - [[34m2019-10-04 10:14:18,072[0m] {[34mdbapi_hook.py:[0m171} INFO[0m - 
+        COPY port_code_staging 
+        FROM 's3://project-capstone/port_codes.csv'
+        ACCESS_KEY_ID 'AKIASZIXFGD4JFXXFSEI'
+        SECRET_ACCESS_KEY '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'
+        CSV DELIMITER ',' IGNOREHEADER 1
+    [0m
+[2019-10-04 10:14:19,323] {copy_s3_to_redshift.py:59} INFO - Data copy complete
+[2019-10-04 10:14:19,397] {logging_mixin.py:95} INFO - [[34m2019-10-04 10:14:19,396[0m] {[34mlocal_task_job.py:[0m172} [33mWARNING[0m - [33mState of this instance has been externally set to [1msuccess[0m. Taking the poison pill.[0m
+[2019-10-04 10:14:19,405] {helpers.py:307} INFO - Sending Signals.SIGTERM to GPID 35264
+[2019-10-04 10:14:19,421] {helpers.py:285} INFO - Process psutil.Process(pid=35264, status='terminated') (35264) terminated with exit code -15
+[2019-10-04 10:14:19,422] {logging_mixin.py:95} INFO - [[34m2019-10-04 10:14:19,422[0m] {[34mlocal_task_job.py:[0m105} INFO[0m - Task exited with return code 0[0m

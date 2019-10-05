@@ -1,0 +1,60 @@
+[2019-09-29 23:02:58,332] {taskinstance.py:620} INFO - Dependencies all met for <TaskInstance: capstone_project_dag.load_staging_database_tables 2019-09-28T00:00:00+00:00 [queued]>
+[2019-09-29 23:02:58,349] {taskinstance.py:620} INFO - Dependencies all met for <TaskInstance: capstone_project_dag.load_staging_database_tables 2019-09-28T00:00:00+00:00 [queued]>
+[2019-09-29 23:02:58,349] {taskinstance.py:838} INFO - 
+--------------------------------------------------------------------------------
+[2019-09-29 23:02:58,350] {taskinstance.py:839} INFO - Starting attempt 2 of 4
+[2019-09-29 23:02:58,350] {taskinstance.py:840} INFO - 
+--------------------------------------------------------------------------------
+[2019-09-29 23:02:58,357] {taskinstance.py:859} INFO - Executing <Task(PostgresOperator): load_staging_database_tables> on 2019-09-28T00:00:00+00:00
+[2019-09-29 23:02:58,357] {base_task_runner.py:133} INFO - Running: ['airflow', 'run', 'capstone_project_dag', 'load_staging_database_tables', '2019-09-28T00:00:00+00:00', '--job_id', '34', '--pool', 'default_pool', '--raw', '-sd', 'DAGS_FOLDER/project_dag.py', '--cfg_path', '/var/folders/dr/9yvjlnm11xv25k2gknf2n3z00000gn/T/tmpekfk10to']
+[2019-09-29 23:02:58,867] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables /usr/local/lib/python3.7/site-packages/airflow/configuration.py:627: DeprecationWarning: You have two airflow.cfg files: /Users/victorialemay/airflow/airflow.cfg and /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/airflow.cfg. Airflow used to look at ~/airflow/airflow.cfg, even when AIRFLOW_HOME was set to a different value. Airflow will now only read /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/airflow.cfg, and you should remove the other file
+[2019-09-29 23:02:58,868] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables   category=DeprecationWarning,
+[2019-09-29 23:02:58,961] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables [2019-09-29 23:02:58,960] {settings.py:213} INFO - settings.configure_orm(): Using pool settings. pool_size=5, max_overflow=10, pool_recycle=1800, pid=48555
+[2019-09-29 23:02:59,098] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables [2019-09-29 23:02:59,098] {__init__.py:51} INFO - Using executor LocalExecutor
+[2019-09-29 23:02:59,510] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables [2019-09-29 23:02:59,509] {dagbag.py:90} INFO - Filling up the DagBag from /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py
+[2019-09-29 23:02:59,548] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables [2019-09-29 23:02:59,548] {cli.py:516} INFO - Running <TaskInstance: capstone_project_dag.load_staging_database_tables 2019-09-28T00:00:00+00:00 [running]> on host 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
+[2019-09-29 23:02:59,575] {taskinstance.py:1051} ERROR - sql/create_staging_tables.sql
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/airflow/models/taskinstance.py", line 911, in _run_raw_task
+    self.render_templates(context=context)
+  File "/usr/local/lib/python3.7/site-packages/airflow/models/taskinstance.py", line 1268, in render_templates
+    rendered_content = rt(attr, content, context)
+  File "/usr/local/lib/python3.7/site-packages/airflow/models/baseoperator.py", line 678, in render_template
+    return jinja_env.get_template(content).render(**context)
+  File "/usr/local/lib/python3.7/site-packages/jinja2/environment.py", line 830, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "/usr/local/lib/python3.7/site-packages/jinja2/environment.py", line 804, in _load_template
+    template = self.loader.load(self, name, globals)
+  File "/usr/local/lib/python3.7/site-packages/jinja2/loaders.py", line 113, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/usr/local/lib/python3.7/site-packages/jinja2/loaders.py", line 187, in get_source
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: sql/create_staging_tables.sql
+[2019-09-29 23:02:59,582] {taskinstance.py:1074} INFO - Marking task as UP_FOR_RETRY
+[2019-09-29 23:02:59,607] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables Traceback (most recent call last):
+[2019-09-29 23:02:59,607] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables   File "/usr/local/bin/airflow", line 32, in <module>
+[2019-09-29 23:02:59,607] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables     args.func(args)
+[2019-09-29 23:02:59,607] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables   File "/usr/local/lib/python3.7/site-packages/airflow/utils/cli.py", line 74, in wrapper
+[2019-09-29 23:02:59,607] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables     return f(*args, **kwargs)
+[2019-09-29 23:02:59,607] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables   File "/usr/local/lib/python3.7/site-packages/airflow/bin/cli.py", line 522, in run
+[2019-09-29 23:02:59,608] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables     _run(args, dag, ti)
+[2019-09-29 23:02:59,608] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables   File "/usr/local/lib/python3.7/site-packages/airflow/bin/cli.py", line 440, in _run
+[2019-09-29 23:02:59,608] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables     pool=args.pool,
+[2019-09-29 23:02:59,608] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables   File "/usr/local/lib/python3.7/site-packages/airflow/utils/db.py", line 74, in wrapper
+[2019-09-29 23:02:59,608] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables     return func(*args, **kwargs)
+[2019-09-29 23:02:59,608] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables   File "/usr/local/lib/python3.7/site-packages/airflow/models/taskinstance.py", line 911, in _run_raw_task
+[2019-09-29 23:02:59,608] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables     self.render_templates(context=context)
+[2019-09-29 23:02:59,608] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables   File "/usr/local/lib/python3.7/site-packages/airflow/models/taskinstance.py", line 1268, in render_templates
+[2019-09-29 23:02:59,608] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables     rendered_content = rt(attr, content, context)
+[2019-09-29 23:02:59,608] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables   File "/usr/local/lib/python3.7/site-packages/airflow/models/baseoperator.py", line 678, in render_template
+[2019-09-29 23:02:59,608] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables     return jinja_env.get_template(content).render(**context)
+[2019-09-29 23:02:59,608] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables   File "/usr/local/lib/python3.7/site-packages/jinja2/environment.py", line 830, in get_template
+[2019-09-29 23:02:59,608] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables     return self._load_template(name, self.make_globals(globals))
+[2019-09-29 23:02:59,608] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables   File "/usr/local/lib/python3.7/site-packages/jinja2/environment.py", line 804, in _load_template
+[2019-09-29 23:02:59,608] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables     template = self.loader.load(self, name, globals)
+[2019-09-29 23:02:59,608] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables   File "/usr/local/lib/python3.7/site-packages/jinja2/loaders.py", line 113, in load
+[2019-09-29 23:02:59,609] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables     source, filename, uptodate = self.get_source(environment, name)
+[2019-09-29 23:02:59,609] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables   File "/usr/local/lib/python3.7/site-packages/jinja2/loaders.py", line 187, in get_source
+[2019-09-29 23:02:59,609] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables     raise TemplateNotFound(template)
+[2019-09-29 23:02:59,609] {base_task_runner.py:115} INFO - Job 34: Subtask load_staging_database_tables jinja2.exceptions.TemplateNotFound: sql/create_staging_tables.sql
+[2019-09-29 23:03:03,316] {logging_mixin.py:95} INFO - [[34m2019-09-29 23:03:03,315[0m] {[34mlocal_task_job.py:[0m105} INFO[0m - Task exited with return code 1[0m

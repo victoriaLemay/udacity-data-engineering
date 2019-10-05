@@ -1,0 +1,12 @@
+{
+    "name": "Business",
+    "visa_type_code": 1
+}
+{
+    "name": "Pleasure",
+    "visa_type_code": 2
+}
+{
+    "name": "Student",
+    "visa_type_code": 3
+}

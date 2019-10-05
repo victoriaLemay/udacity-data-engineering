@@ -1,0 +1,21 @@
+[2019-10-04 14:22:12,605] {taskinstance.py:620} INFO - Dependencies all met for <TaskInstance: capstone_project_dag.Load_travel_modes_dim_table 2019-10-04T19:21:14.889889+00:00 [queued]>
+[2019-10-04 14:22:12,643] {taskinstance.py:620} INFO - Dependencies all met for <TaskInstance: capstone_project_dag.Load_travel_modes_dim_table 2019-10-04T19:21:14.889889+00:00 [queued]>
+[2019-10-04 14:22:12,643] {taskinstance.py:838} INFO - 
+--------------------------------------------------------------------------------
+[2019-10-04 14:22:12,644] {taskinstance.py:839} INFO - Starting attempt 1 of 4
+[2019-10-04 14:22:12,644] {taskinstance.py:840} INFO - 
+--------------------------------------------------------------------------------
+[2019-10-04 14:22:12,668] {taskinstance.py:859} INFO - Executing <Task(LoadDimFileDataOperator): Load_travel_modes_dim_table> on 2019-10-04T19:21:14.889889+00:00
+[2019-10-04 14:22:12,669] {base_task_runner.py:133} INFO - Running: ['airflow', 'run', 'capstone_project_dag', 'Load_travel_modes_dim_table', '2019-10-04T19:21:14.889889+00:00', '--job_id', '710', '--pool', 'default_pool', '--raw', '-sd', 'DAGS_FOLDER/project_dag.py', '--cfg_path', '/var/folders/dr/9yvjlnm11xv25k2gknf2n3z00000gn/T/tmptg4g2vw6']
+[2019-10-04 14:22:15,241] {base_task_runner.py:115} INFO - Job 710: Subtask Load_travel_modes_dim_table /usr/local/lib/python3.7/site-packages/airflow/configuration.py:627: DeprecationWarning: You have two airflow.cfg files: /Users/victorialemay/airflow/airflow.cfg and /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/airflow.cfg. Airflow used to look at ~/airflow/airflow.cfg, even when AIRFLOW_HOME was set to a different value. Airflow will now only read /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/airflow.cfg, and you should remove the other file
+[2019-10-04 14:22:15,242] {base_task_runner.py:115} INFO - Job 710: Subtask Load_travel_modes_dim_table   category=DeprecationWarning,
+[2019-10-04 14:22:15,619] {base_task_runner.py:115} INFO - Job 710: Subtask Load_travel_modes_dim_table [2019-10-04 14:22:15,619] {settings.py:213} INFO - settings.configure_orm(): Using pool settings. pool_size=5, max_overflow=10, pool_recycle=1800, pid=5499
+[2019-10-04 14:22:16,991] {base_task_runner.py:115} INFO - Job 710: Subtask Load_travel_modes_dim_table [2019-10-04 14:22:16,987] {__init__.py:51} INFO - Using executor LocalExecutor
+[2019-10-04 14:22:19,636] {base_task_runner.py:115} INFO - Job 710: Subtask Load_travel_modes_dim_table [2019-10-04 14:22:19,635] {dagbag.py:90} INFO - Filling up the DagBag from /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py
+[2019-10-04 14:22:19,764] {base_task_runner.py:115} INFO - Job 710: Subtask Load_travel_modes_dim_table [2019-10-04 14:22:19,763] {cli.py:516} INFO - Running <TaskInstance: capstone_project_dag.Load_travel_modes_dim_table 2019-10-04T19:21:14.889889+00:00 [running]> on host 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
+[2019-10-04 14:22:19,838] {load_dim_file_data.py:35} INFO - Using data file travel_modes.json from S3 bucket project-capstone
+[2019-10-04 14:22:19,987] {logging_mixin.py:95} INFO - [[34m2019-10-04 14:22:19,986[0m] {[34mbase_hook.py:[0m84} INFO[0m - Using connection to: [1mid: redshift. Host: redshift-cluster-1.c4i0rfzboubh.us-west-2.redshift.amazonaws.com, Port: 5439, Schema: dev, Login: awsuser, Password: XXXXXXXX, extra: {}[0m[0m
+[2019-10-04 14:22:20,777] {load_dim_file_data.py:58} INFO - Found 12 records in travel_modes
+[2019-10-04 14:22:20,777] {load_dim_file_data.py:59} INFO - travel_modes table data is already set
+[2019-10-04 14:22:20,777] {load_dim_file_data.py:61} INFO - Data copy complete
+[2019-10-04 14:22:22,581] {logging_mixin.py:95} INFO - [[34m2019-10-04 14:22:22,580[0m] {[34mlocal_task_job.py:[0m105} INFO[0m - Task exited with return code 0[0m

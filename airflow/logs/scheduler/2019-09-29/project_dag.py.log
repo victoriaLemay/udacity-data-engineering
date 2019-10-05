@@ -1,0 +1,49 @@
+[2019-09-28 19:42:08,601] {scheduler_job.py:146} INFO - Started process (PID=1466) to work on /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py
+[2019-09-28 19:42:08,610] {scheduler_job.py:1520} INFO - Processing file /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py for tasks to queue
+[2019-09-28 19:42:08,611] {logging_mixin.py:95} INFO - [2019-09-28 19:42:08,611] {dagbag.py:90} INFO - Filling up the DagBag from /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py
+[2019-09-28 19:42:08,623] {logging_mixin.py:95} INFO - [2019-09-28 19:42:08,618] {dagbag.py:205} ERROR - Failed to import: /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/airflow/models/dagbag.py", line 202, in process_file
+    m = imp.load_source(mod_name, filepath)
+  File "/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/lib/python3.7/imp.py", line 171, in load_source
+    module = _load(spec)
+  File "<frozen importlib._bootstrap>", line 696, in _load
+  File "<frozen importlib._bootstrap>", line 677, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 728, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py", line 5, in <module>
+    from airflow.operators.postgres_operator import PostgresOperator
+  File "/usr/local/lib/python3.7/site-packages/airflow/operators/postgres_operator.py", line 19, in <module>
+    from airflow.hooks.postgres_hook import PostgresHook
+  File "/usr/local/lib/python3.7/site-packages/airflow/hooks/postgres_hook.py", line 21, in <module>
+    import psycopg2
+ModuleNotFoundError: No module named 'psycopg2'
+[2019-09-28 19:42:08,623] {scheduler_job.py:1534} WARNING - No viable dags retrieved from /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py
+[2019-09-28 19:42:08,635] {scheduler_job.py:152} INFO - Processing /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py took 0.034 seconds
+[2019-09-28 20:01:11,566] {scheduler_job.py:146} INFO - Started process (PID=2146) to work on /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py
+[2019-09-28 20:01:11,576] {scheduler_job.py:1520} INFO - Processing file /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py for tasks to queue
+[2019-09-28 20:01:11,577] {logging_mixin.py:95} INFO - [2019-09-28 20:01:11,576] {dagbag.py:90} INFO - Filling up the DagBag from /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py
+[2019-09-28 20:01:11,583] {logging_mixin.py:95} INFO - [2019-09-28 20:01:11,581] {dagbag.py:205} ERROR - Failed to import: /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/airflow/models/dagbag.py", line 202, in process_file
+    m = imp.load_source(mod_name, filepath)
+  File "/usr/local/Cellar/python/3.7.3/Frameworks/Python.framework/Versions/3.7/lib/python3.7/imp.py", line 171, in load_source
+    module = _load(spec)
+  File "<frozen importlib._bootstrap>", line 696, in _load
+  File "<frozen importlib._bootstrap>", line 677, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 728, in exec_module
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py", line 5, in <module>
+    from airflow.operators.postgres_operator import PostgresOperator
+  File "/usr/local/lib/python3.7/site-packages/airflow/operators/postgres_operator.py", line 19, in <module>
+    from airflow.hooks.postgres_hook import PostgresHook
+  File "/usr/local/lib/python3.7/site-packages/airflow/hooks/postgres_hook.py", line 21, in <module>
+    import psycopg2
+ModuleNotFoundError: No module named 'psycopg2'
+[2019-09-28 20:01:11,584] {scheduler_job.py:1534} WARNING - No viable dags retrieved from /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py
+[2019-09-28 20:01:11,600] {scheduler_job.py:152} INFO - Processing /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py took 0.034 seconds
+[2019-09-28 20:06:29,317] {scheduler_job.py:146} INFO - Started process (PID=2559) to work on /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py
+[2019-09-28 20:06:29,327] {scheduler_job.py:1520} INFO - Processing file /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py for tasks to queue
+[2019-09-28 20:06:29,328] {logging_mixin.py:95} INFO - [2019-09-28 20:06:29,328] {dagbag.py:90} INFO - Filling up the DagBag from /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py
+[2019-09-28 20:06:29,351] {scheduler_job.py:1532} INFO - DAG(s) dict_keys(['capstone_project_dag']) retrieved from /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py
+[2019-09-28 20:06:29,377] {scheduler_job.py:152} INFO - Processing /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py took 0.060 seconds

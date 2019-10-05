@@ -1,0 +1,25 @@
+[2019-10-04 09:41:55,198] {taskinstance.py:620} INFO - Dependencies all met for <TaskInstance: capstone_project_dag.Stage_staging_data_files 2019-10-04T14:41:38.927128+00:00 [queued]>
+[2019-10-04 09:41:55,228] {taskinstance.py:620} INFO - Dependencies all met for <TaskInstance: capstone_project_dag.Stage_staging_data_files 2019-10-04T14:41:38.927128+00:00 [queued]>
+[2019-10-04 09:41:55,228] {taskinstance.py:838} INFO - 
+--------------------------------------------------------------------------------
+[2019-10-04 09:41:55,228] {taskinstance.py:839} INFO - Starting attempt 1 of 4
+[2019-10-04 09:41:55,229] {taskinstance.py:840} INFO - 
+--------------------------------------------------------------------------------
+[2019-10-04 09:41:55,244] {taskinstance.py:859} INFO - Executing <Task(LoadLocalFilesToS3Operator): Stage_staging_data_files> on 2019-10-04T14:41:38.927128+00:00
+[2019-10-04 09:41:55,244] {base_task_runner.py:133} INFO - Running: ['airflow', 'run', 'capstone_project_dag', 'Stage_staging_data_files', '2019-10-04T14:41:38.927128+00:00', '--job_id', '364', '--pool', 'default_pool', '--raw', '-sd', 'DAGS_FOLDER/project_dag.py', '--cfg_path', '/var/folders/dr/9yvjlnm11xv25k2gknf2n3z00000gn/T/tmpedu1cljs']
+[2019-10-04 09:41:56,152] {base_task_runner.py:115} INFO - Job 364: Subtask Stage_staging_data_files /usr/local/lib/python3.7/site-packages/airflow/configuration.py:627: DeprecationWarning: You have two airflow.cfg files: /Users/victorialemay/airflow/airflow.cfg and /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/airflow.cfg. Airflow used to look at ~/airflow/airflow.cfg, even when AIRFLOW_HOME was set to a different value. Airflow will now only read /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/airflow.cfg, and you should remove the other file
+[2019-10-04 09:41:56,152] {base_task_runner.py:115} INFO - Job 364: Subtask Stage_staging_data_files   category=DeprecationWarning,
+[2019-10-04 09:41:56,298] {base_task_runner.py:115} INFO - Job 364: Subtask Stage_staging_data_files [2019-10-04 09:41:56,298] {settings.py:213} INFO - settings.configure_orm(): Using pool settings. pool_size=5, max_overflow=10, pool_recycle=1800, pid=25617
+[2019-10-04 09:41:56,608] {base_task_runner.py:115} INFO - Job 364: Subtask Stage_staging_data_files [2019-10-04 09:41:56,608] {__init__.py:51} INFO - Using executor LocalExecutor
+[2019-10-04 09:41:57,296] {base_task_runner.py:115} INFO - Job 364: Subtask Stage_staging_data_files [2019-10-04 09:41:57,295] {dagbag.py:90} INFO - Filling up the DagBag from /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py
+[2019-10-04 09:41:57,347] {base_task_runner.py:115} INFO - Job 364: Subtask Stage_staging_data_files [2019-10-04 09:41:57,347] {cli.py:516} INFO - Running <TaskInstance: capstone_project_dag.Stage_staging_data_files 2019-10-04T14:41:38.927128+00:00 [running]> on host 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
+[2019-10-04 09:41:58,255] {load_files_to_s3.py:49} INFO - Loading to S3 bucket project-capstone
+[2019-10-04 09:41:58,255] {load_files_to_s3.py:50} INFO - Checking /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/data/staging_data directory for files
+[2019-10-04 09:41:58,256] {load_files_to_s3.py:55} INFO - Found file /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/data/staging_data/us-cities-demographics.csv
+[2019-10-04 09:41:58,256] {load_files_to_s3.py:58} INFO -   Using S3 key us-cities-demographics.csv
+[2019-10-04 09:41:59,483] {load_files_to_s3.py:65} INFO -   File already exists in bucket
+[2019-10-04 09:41:59,484] {load_files_to_s3.py:55} INFO - Found file /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/data/staging_data/GlobalLandTemperaturesByCity.csv
+[2019-10-04 09:41:59,484] {load_files_to_s3.py:58} INFO -   Using S3 key GlobalLandTemperaturesByCity.csv
+[2019-10-04 09:42:00,689] {load_files_to_s3.py:65} INFO -   File already exists in bucket
+[2019-10-04 09:42:00,689] {load_files_to_s3.py:67} INFO - S3 file load complete!
+[2019-10-04 09:42:05,181] {logging_mixin.py:95} INFO - [[34m2019-10-04 09:42:05,180[0m] {[34mlocal_task_job.py:[0m105} INFO[0m - Task exited with return code 0[0m

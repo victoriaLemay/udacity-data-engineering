@@ -1,0 +1,49 @@
+[2019-10-04 18:27:28,862] {taskinstance.py:620} INFO - Dependencies all met for <TaskInstance: capstone_project_dag.Load_i94_immigration_final_table 2019-10-04T23:25:27.701945+00:00 [queued]>
+[2019-10-04 18:27:28,871] {taskinstance.py:620} INFO - Dependencies all met for <TaskInstance: capstone_project_dag.Load_i94_immigration_final_table 2019-10-04T23:25:27.701945+00:00 [queued]>
+[2019-10-04 18:27:28,871] {taskinstance.py:838} INFO - 
+--------------------------------------------------------------------------------
+[2019-10-04 18:27:28,871] {taskinstance.py:839} INFO - Starting attempt 1 of 4
+[2019-10-04 18:27:28,871] {taskinstance.py:840} INFO - 
+--------------------------------------------------------------------------------
+[2019-10-04 18:27:28,890] {taskinstance.py:859} INFO - Executing <Task(LoadFinalTableOperator): Load_i94_immigration_final_table> on 2019-10-04T23:25:27.701945+00:00
+[2019-10-04 18:27:28,890] {base_task_runner.py:133} INFO - Running: ['airflow', 'run', 'capstone_project_dag', 'Load_i94_immigration_final_table', '2019-10-04T23:25:27.701945+00:00', '--job_id', '931', '--pool', 'default_pool', '--raw', '-sd', 'DAGS_FOLDER/project_dag.py', '--cfg_path', '/var/folders/dr/9yvjlnm11xv25k2gknf2n3z00000gn/T/tmpc_1ho6wx']
+[2019-10-04 18:27:29,365] {base_task_runner.py:115} INFO - Job 931: Subtask Load_i94_immigration_final_table /usr/local/lib/python3.7/site-packages/airflow/configuration.py:627: DeprecationWarning: You have two airflow.cfg files: /Users/victorialemay/airflow/airflow.cfg and /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/airflow.cfg. Airflow used to look at ~/airflow/airflow.cfg, even when AIRFLOW_HOME was set to a different value. Airflow will now only read /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/airflow.cfg, and you should remove the other file
+[2019-10-04 18:27:29,365] {base_task_runner.py:115} INFO - Job 931: Subtask Load_i94_immigration_final_table   category=DeprecationWarning,
+[2019-10-04 18:27:29,459] {base_task_runner.py:115} INFO - Job 931: Subtask Load_i94_immigration_final_table [2019-10-04 18:27:29,458] {settings.py:213} INFO - settings.configure_orm(): Using pool settings. pool_size=5, max_overflow=10, pool_recycle=1800, pid=76020
+[2019-10-04 18:27:29,716] {base_task_runner.py:115} INFO - Job 931: Subtask Load_i94_immigration_final_table [2019-10-04 18:27:29,715] {__init__.py:51} INFO - Using executor LocalExecutor
+[2019-10-04 18:27:30,062] {base_task_runner.py:115} INFO - Job 931: Subtask Load_i94_immigration_final_table [2019-10-04 18:27:30,062] {dagbag.py:90} INFO - Filling up the DagBag from /Users/victorialemay/Courses/Udacity/Data Engineering Nanodegree/capstone/project-archive/airflow/dags/project_dag.py
+[2019-10-04 18:27:30,105] {base_task_runner.py:115} INFO - Job 931: Subtask Load_i94_immigration_final_table [2019-10-04 18:27:30,104] {cli.py:516} INFO - Running <TaskInstance: capstone_project_dag.Load_i94_immigration_final_table 2019-10-04T23:25:27.701945+00:00 [running]> on host 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa
+[2019-10-04 18:27:30,138] {load_final_table.py:24} INFO - Loading data into i94_immigration table
+[2019-10-04 18:27:30,138] {load_final_table.py:34} INFO - Using columns: year, month, res_country_code_id, port_id, travel_mode_id, arrival_date, departure_date, respondent_age, visa_type_code_id, visa_post_code_id, occupation, birth_year, gender, visa_type
+[2019-10-04 18:27:30,152] {logging_mixin.py:95} INFO - [[34m2019-10-04 18:27:30,151[0m] {[34mbase_hook.py:[0m84} INFO[0m - Using connection to: [1mid: redshift. Host: redshift-cluster-1.c4i0rfzboubh.us-west-2.redshift.amazonaws.com, Port: 5439, Schema: dev, Login: awsuser, Password: XXXXXXXX, extra: {}[0m[0m
+[2019-10-04 18:27:30,717] {logging_mixin.py:95} INFO - [[34m2019-10-04 18:27:30,717[0m] {[34mdbapi_hook.py:[0m171} INFO[0m - INSERT INTO i94_immigration (year, month, res_country_code_id, port_id, travel_mode_id, arrival_date, departure_date, respondent_age, visa_type_code_id, visa_post_code_id, occupation, birth_year, gender, visa_type) 
+        SELECT
+            convert(integer, i94_immigration_staging.i94yr),
+            convert(integer, i94_immigration_staging.i94mon),
+            country_codes.id as country_code_id,
+            port_codes.id as port_code_id,
+            travel_modes.id as travel_mode_id,
+            dateadd(day, convert(integer, i94_immigration_staging.arrdate), '1960-01-01'),
+            dateadd(day, convert(integer, i94_immigration_staging.depdate), '1960-01-01'),
+            convert(integer, i94bir),
+            visa_types.id,
+            visa_port_codes.id,
+            i94_immigration_staging.occup,
+            convert(integer, i94_immigration_staging.biryear),
+            i94_immigration_staging.gender,
+            i94_immigration_staging.visa_type
+        FROM
+            i94_immigration_staging
+        LEFT JOIN
+            country_codes ON i94_immigration_staging.i94res = country_codes.i94_code
+        LEFT JOIN
+            port_codes ON TRIM(i94_immigration_staging.i94port) = TRIM(port_codes.i94_port_code)
+        LEFT JOIN
+            port_codes AS visa_port_codes ON TRIM(i94_immigration_staging.visapost) = TRIM(port_codes.i94_port_code)
+        LEFT JOIN
+            visa_types ON i94_immigration_staging.i94visa = visa_types.visa_type_code
+        LEFT JOIN
+            travel_modes ON convert(integer, i94_immigration_staging.i94mode) = travel_modes.travel_mode_code
+    [0m
+[2019-10-04 18:27:56,907] {load_final_table.py:38} INFO - Data load complete
+[2019-10-04 18:27:58,935] {logging_mixin.py:95} INFO - [[34m2019-10-04 18:27:58,934[0m] {[34mlocal_task_job.py:[0m105} INFO[0m - Task exited with return code 0[0m

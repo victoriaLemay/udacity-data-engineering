@@ -1,0 +1,16 @@
+{
+    "name": "Air",
+    "travel_mode_code": 1
+}
+{
+    "name": "Sea",
+    "travel_mode_code": 2
+}
+{
+    "name": "Land",
+    "travel_mode_code": 3
+}
+{
+    "name": "Not reported",
+    "travel_mode_code": 9
+}
